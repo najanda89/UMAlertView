@@ -23,19 +23,23 @@
 @interface UMAlertView()
 
 @property (nonatomic) UIView *umAlertView;
+@property (nonatomic) CGFloat duration;
 
 @end
 
 @implementation UMAlertView
 
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data {
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data  {
+    
+    [self um_showAlertViewTitle:title pickerData:data duration:UM_ALERT_VIEW_ANIMATION_DURATION];
+}
+
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)duration {
     
     self.pickerTextData = data;
+    self.duration = duration;
     
     UIView *keyWindow = [self keyWindow];
-    if (!keyWindow) {
-        return;
-    }
     
     UIView *umAlertView =[[UIView alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN / 2, UM_ALERT_VIEW_MARGIN * 2, keyWindow.frame.size.width - UM_ALERT_VIEW_MARGIN, UM_ALERT_VIEW_MARGIN * 5)];
     umAlertView.layer.borderColor = [UIColor darkGrayColor].CGColor;
@@ -71,7 +75,7 @@
     [umAlertView addSubview:dataPicker];
     [keyWindow addSubview:umAlertView];
     
-    [UIView animateWithDuration:UM_ALERT_VIEW_ANIMATION_DURATION animations: ^{
+    [UIView animateWithDuration:self.duration animations: ^{
         NSLog(@"animation");
         umAlertView.alpha = 1.0f;
     }];
@@ -80,7 +84,7 @@
 
 - (void)um_dismissAlertView {
     
-    [UIView animateWithDuration:UM_ALERT_VIEW_ANIMATION_DURATION animations:^{
+    [UIView animateWithDuration:self.duration animations:^{
         NSLog(@"anmiation");
         self.umAlertView.alpha = 0.0f;
     } completion:^(BOOL finished) {
