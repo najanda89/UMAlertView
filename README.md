@@ -20,6 +20,7 @@ Action
 ```
     data = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", nil];
     [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data];
+    [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data duration:3.0f];
 ```
 
 Dismiss
