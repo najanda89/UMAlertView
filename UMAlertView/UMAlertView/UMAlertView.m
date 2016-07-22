@@ -32,12 +32,26 @@ static NSInteger pickerRow = 0;
 
 @implementation UMAlertView
 
+// title, data
 - (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data  {
     
-    [self um_showAlertViewTitle:title pickerData:data duration:duration];
+    [self um_showAlertViewTitle:title pickerData:data duration:duration completion:nil];
 }
 
+// title, data, completion block
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data completion:(void (^)(void))completed {
+    
+    [self um_showAlertViewTitle:title pickerData:data duration:duration completion:completed];
+}
+
+// title, data, animation time
 - (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time {
+    
+    [self um_showAlertViewTitle:title pickerData:data duration:time completion:nil];
+}
+
+// title, data, animation time, completion block
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time completion:(void (^)(void))completed {
     
     pickerListData = data;
     duration = time;
@@ -82,7 +96,9 @@ static NSInteger pickerRow = 0;
     [UIView animateWithDuration:duration animations: ^{
         NSLog(@"animation");
         umAlertView.alpha = 1.0f;
+        completed();
     }];
+    
     
 }
 
@@ -93,6 +109,18 @@ static NSInteger pickerRow = 0;
         self.umAlertView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         [self.umAlertView removeFromSuperview];
+    }];
+    
+}
+
+- (void)um_dismissAlertViewCompletion:(void(^)(void))complete {
+    
+    [UIView animateWithDuration:duration animations:^{
+        NSLog(@"anmiation");
+        self.umAlertView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [self.umAlertView removeFromSuperview];
+        complete();
     }];
     
 }

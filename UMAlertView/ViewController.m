@@ -30,7 +30,10 @@
 - (IBAction)showUMAlertView:(id)sender {
     [self.dataLabel setHidden:YES];
     NSArray *array = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", @"UMData3", @"UMData4", @"UMData5", nil];
-    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array];
+//    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array];
+    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array completion:^{
+        NSLog(@"UMAlertView show success");
+    }];
     
 }
 
@@ -38,7 +41,9 @@
     [self.dataLabel setHidden:NO];
     NSLog(@"ViewController Show Data : %@", [self.umAlertView selectData]);
     [self.dataLabel setText:[self.umAlertView selectData]];
-    [self.umAlertView um_dismissAlertView];
+    [self.umAlertView um_dismissAlertViewCompletion:^{
+        NSLog(@"UMAlertView dismiss success");
+    }];
     
 }
 
