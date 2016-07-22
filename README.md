@@ -4,7 +4,9 @@
 
 1. Download the latest code version .
 2. Open your project in Xcode, drag the UMAlertView folder into your project. Make sure to select Copy items when asked if you extracted the code archive outside of your project.
-3. You need it with #import "UMAlertView.h", #import "UMAlertView.m".
+3. You need it with next line
+  - #import "UMAlertView.h"
+  - #import "UMAlertView.m".
 
 ## Usage
 
@@ -22,7 +24,7 @@ Action
 
 Dismiss
 ```
-[self.umAlertView um_dismissAlertView];
+    [self.umAlertView um_dismissAlertView];
 ```
 
 ## Contact
