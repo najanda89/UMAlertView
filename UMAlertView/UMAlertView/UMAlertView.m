@@ -55,6 +55,7 @@ static NSInteger pickerRow = 0;
     
     pickerListData = data;
     duration = time;
+    isScrollPickerView = NO;
     
     UIView *keyWindow = [self keyWindow];
     
