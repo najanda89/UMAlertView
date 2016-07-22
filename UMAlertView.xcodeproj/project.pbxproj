@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF6FEC8A1D423BB10026E209 /* UMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6FEC891D423BB10026E209 /* UMAlertView.m */; };
 		FFD9F4721D41F5B4008A38E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD9F4711D41F5B4008A38E0 /* main.m */; };
 		FFD9F4751D41F5B4008A38E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD9F4741D41F5B4008A38E0 /* AppDelegate.m */; };
 		FFD9F4781D41F5B4008A38E0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD9F4771D41F5B4008A38E0 /* ViewController.m */; };
 		FFD9F47B1D41F5B4008A38E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFD9F4791D41F5B4008A38E0 /* Main.storyboard */; };
 		FFD9F47D1D41F5B4008A38E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFD9F47C1D41F5B4008A38E0 /* Assets.xcassets */; };
 		FFD9F4801D41F5B4008A38E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFD9F47E1D41F5B4008A38E0 /* LaunchScreen.storyboard */; };
-		FFD9F4891D41F5C4008A38E0 /* UMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD9F4881D41F5C4008A38E0 /* UMAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF6FEC881D423BB10026E209 /* UMAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMAlertView.h; path = UMAlertView/UMAlertView.h; sourceTree = "<group>"; };
+		FF6FEC891D423BB10026E209 /* UMAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMAlertView.m; path = UMAlertView/UMAlertView.m; sourceTree = "<group>"; };
 		FFD9F46D1D41F5B4008A38E0 /* UMAlertView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UMAlertView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFD9F4711D41F5B4008A38E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FFD9F4731D41F5B4008A38E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -27,8 +29,6 @@
 		FFD9F47C1D41F5B4008A38E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFD9F47F1D41F5B4008A38E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FFD9F4811D41F5B4008A38E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FFD9F4871D41F5C4008A38E0 /* UMAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMAlertView.h; sourceTree = "<group>"; };
-		FFD9F4881D41F5C4008A38E0 /* UMAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +42,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF6FEC871D423BA30026E209 /* UMAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				FF6FEC881D423BB10026E209 /* UMAlertView.h */,
+				FF6FEC891D423BB10026E209 /* UMAlertView.m */,
+			);
+			name = UMAlertView;
+			sourceTree = "<group>";
+		};
 		FFD9F4641D41F5B4008A38E0 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +70,7 @@
 		FFD9F46F1D41F5B4008A38E0 /* UMAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				FF6FEC871D423BA30026E209 /* UMAlertView */,
 				FFD9F4731D41F5B4008A38E0 /* AppDelegate.h */,
 				FFD9F4741D41F5B4008A38E0 /* AppDelegate.m */,
 				FFD9F4761D41F5B4008A38E0 /* ViewController.h */,
@@ -70,8 +80,6 @@
 				FFD9F47E1D41F5B4008A38E0 /* LaunchScreen.storyboard */,
 				FFD9F4811D41F5B4008A38E0 /* Info.plist */,
 				FFD9F4701D41F5B4008A38E0 /* Supporting Files */,
-				FFD9F4871D41F5C4008A38E0 /* UMAlertView.h */,
-				FFD9F4881D41F5C4008A38E0 /* UMAlertView.m */,
 			);
 			path = UMAlertView;
 			sourceTree = "<group>";
@@ -155,7 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFD9F4781D41F5B4008A38E0 /* ViewController.m in Sources */,
-				FFD9F4891D41F5C4008A38E0 /* UMAlertView.m in Sources */,
+				FF6FEC8A1D423BB10026E209 /* UMAlertView.m in Sources */,
 				FFD9F4751D41F5B4008A38E0 /* AppDelegate.m in Sources */,
 				FFD9F4721D41F5B4008A38E0 /* main.m in Sources */,
 			);
@@ -306,6 +314,7 @@
 				FFD9F4861D41F5B4008A38E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
