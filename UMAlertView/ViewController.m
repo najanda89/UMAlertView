@@ -10,7 +10,7 @@
 #import "UMAlertView.h"
 
 @interface ViewController ()
-<UMAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+<UMAlertViewDelegate>
 @property (nonatomic) UMAlertView *umAlertView;
 @property (nonatomic) NSArray *array;
 
@@ -24,26 +24,19 @@
     
     self.umAlertView = [[UMAlertView alloc] init];
     self.umAlertView.delegate = self;
-    
-    [self.umAlertView picker].delegate = self;
-    [self.umAlertView picker].dataSource = self;
-    
-    NSLog(@"view did load");
-    
-    // Do any additional setup after loading the view, typically from a nib.
+
 }
 - (void)viewDidAppear:(BOOL)animated {
     
-    self.array = [[NSArray alloc] initWithObjects:@"test1", @"test2", nil];
-    [self.umAlertView um_showAlertViewTitle:@"직업 선택" pickerData:self.array];
+    self.array = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", nil];
+    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:self.array];
 
 }
 
 - (void)selectUMAlertButton {
-    
-    NSLog(@"UMAlertButton Select");
+
+    NSLog(@"select data : %@", [self.umAlertView selectData]);
     [self.umAlertView um_dismissAlertView];
-    
     
 }
 
@@ -51,30 +44,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Picker view data source
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return [self.array count];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    return [self.array objectAtIndex:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
-    NSLog(@"select data : %@", [self.array objectAtIndex:row]);
-    
-}
-
-
 
 @end

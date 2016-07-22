@@ -10,12 +10,13 @@
 #import "ViewController.h"
 
 #define UM_ALERT_VIEW_CORNER_RADIUS 3.0f // AlertView Corner Radius
-#define UM_ALERT_VIEW_MARGIN 60.0f
+#define UM_ALERT_VIEW_MARGIN 50.0f
 #define UM_ALERT_VIEW_MARGIN_ZERO 0.0f
-#define UM_ALERT_VIEW_LABEL_HEIGHT 10.0f
+#define UM_ALERT_VIEW_HEIGHT 50.0f
 #define UM_ALERT_VIEW_ANIMATION_DURATION 1.0f // AlertView show, dismiss Duration
 #define UM_ALERT_VIEW_TITLE_TEXT_COLOR [UIColor blackColor] // AlertView Title Color
 #define UM_ALERT_VIEW_SELECT_BUTTON_COLOR [UIColor grayColor] // AlertView Button Background Color
+#define UM_ALERT_VIEW_ALL_BACKGROUND_COLOR [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 #define UM_ALERT_VIEW_SELECT_BUTTON_TITLE @"Select" // AlertView Button Title
 
 
@@ -28,7 +29,9 @@
 @implementation UMAlertView
 
 - (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data {
-
+    
+    self.pickerTextData = data;
+    
     UIView *keyWindow = [self keyWindow];
     if (!keyWindow) {
         return;
@@ -36,26 +39,25 @@
     
     UIView *umAlertView =[[UIView alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN / 2, UM_ALERT_VIEW_MARGIN * 2, keyWindow.frame.size.width - UM_ALERT_VIEW_MARGIN, UM_ALERT_VIEW_MARGIN * 5)];
     umAlertView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    umAlertView.backgroundColor = [UIColor whiteColor];
+    umAlertView.backgroundColor = UM_ALERT_VIEW_ALL_BACKGROUND_COLOR;
     umAlertView.layer.borderWidth = 2.0f;
     umAlertView.layer.cornerRadius = 3 * UM_ALERT_VIEW_CORNER_RADIUS;
     umAlertView.clipsToBounds = YES;
     umAlertView.alpha = 0.0f;
     
-    UILabel *alertTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, UM_ALERT_VIEW_MARGIN / 2, umAlertView.frame.size.width, UM_ALERT_VIEW_LABEL_HEIGHT)];
+    UILabel *alertTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO,UM_ALERT_VIEW_MARGIN_ZERO, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT)];
     [alertTitleLabel setText:title];
     [alertTitleLabel setTextColor:UM_ALERT_VIEW_TITLE_TEXT_COLOR];
     [alertTitleLabel setTextAlignment:NSTextAlignmentCenter];
     
 
-    UIPickerView *dataPicker = [[UIPickerView alloc] init];
-    [dataPicker setFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, 3 * UM_ALERT_VIEW_MARGIN / 3, umAlertView.frame.size.width, umAlertView.frame.size.height - UM_ALERT_VIEW_MARGIN * 2)];
-    [dataPicker setBackgroundColor:[UIColor grayColor]];
-    
-    
+    UIPickerView *dataPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, UM_ALERT_VIEW_HEIGHT, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT * 3)];
+    dataPicker.backgroundColor = UM_ALERT_VIEW_ALL_BACKGROUND_COLOR;
+    dataPicker.delegate = self;
+    dataPicker.dataSource = self;
     self.picker = dataPicker;
     
-    UIButton *selectButton = [[UIButton alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN / 2, dataPicker.frame.size.height + alertTitleLabel.frame.size.height + UM_ALERT_VIEW_MARGIN, umAlertView.frame.size.width - UM_ALERT_VIEW_MARGIN, 2 * UM_ALERT_VIEW_MARGIN / 3)];
+    UIButton *selectButton = [[UIButton alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, alertTitleLabel.frame.size.height + dataPicker.frame.size.height, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT)];
     selectButton.clipsToBounds = YES;
     selectButton.layer.cornerRadius = UM_ALERT_VIEW_CORNER_RADIUS;
     [selectButton setBackgroundColor:UM_ALERT_VIEW_SELECT_BUTTON_COLOR];
@@ -97,6 +99,29 @@
     if ([self.delegate respondsToSelector:@selector(selectUMAlertButton)]) {
         [self.delegate selectUMAlertButton];
     }
+}
+
+#pragma mark - Picker view data source
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    return [self.pickerTextData count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    return [self.pickerTextData objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    self.selectData = [self.pickerTextData objectAtIndex:row];
+    
 }
 
 @end
