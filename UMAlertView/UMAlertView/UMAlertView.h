@@ -17,8 +17,6 @@
 @interface UMAlertView : UIView
 <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property UIPickerView *picker;
-@property NSArray *pickerTextData;
 @property NSString *selectData;
 
 - (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data;

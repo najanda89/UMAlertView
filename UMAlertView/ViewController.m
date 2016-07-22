@@ -12,7 +12,7 @@
 @interface ViewController ()
 <UMAlertViewDelegate>
 @property (nonatomic) UMAlertView *umAlertView;
-@property (nonatomic) NSArray *array;
+@property (nonatomic, weak) IBOutlet UILabel *dataLabel;
 
 @end
 
@@ -24,18 +24,20 @@
     
     self.umAlertView = [[UMAlertView alloc] init];
     self.umAlertView.delegate = self;
-
-}
-- (void)viewDidAppear:(BOOL)animated {
     
-    self.array = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", nil];
-    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:self.array];
+}
 
+- (IBAction)showUMAlertView:(id)sender {
+    [self.dataLabel setHidden:YES];
+    NSArray *array = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", @"UMData3", @"UMData4", @"UMData5", nil];
+    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array];
+    
 }
 
 - (void)selectUMAlertButton {
-
-    NSLog(@"select data : %@", [self.umAlertView selectData]);
+    [self.dataLabel setHidden:NO];
+    NSLog(@"ViewController Show Data : %@", [self.umAlertView selectData]);
+    [self.dataLabel setText:[self.umAlertView selectData]];
     [self.umAlertView um_dismissAlertView];
     
 }
