@@ -39,13 +39,17 @@ Delegate Method
 Action
 ```
     data = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", nil];
-    [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data];
-    [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data duration:3.0f];
+    [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data haveCancelButton:YES completion:^{
+        NSLog(@"UMAlertView show success");
+    }];
 ```
 
 Dismiss
 ```
-    [self.umAlertView um_dismissAlertView];
+    [umAlertView um_dismissAlertView];
+    [umAlertView um_dismissAlertViewCompletion:^{
+        NSLog(@"UMAlertView dismiss success");
+    }];
 ```
 
 ## Contact
