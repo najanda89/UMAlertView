@@ -30,8 +30,7 @@
 - (IBAction)showUMAlertView:(id)sender {
     [self.dataLabel setHidden:YES];
     NSArray *array = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", @"UMData3", @"UMData4", @"UMData5", nil];
-//    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array];
-    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array completion:^{
+    [self.umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:array haveCancelButton:YES completion:^{
         NSLog(@"UMAlertView show success");
     }];
     
@@ -44,6 +43,12 @@
     [self.umAlertView um_dismissAlertViewCompletion:^{
         NSLog(@"UMAlertView dismiss success");
     }];
+    
+}
+
+- (void)selectUMAlertCancelButton {
+    
+    [self.umAlertView um_dismissAlertView];
     
 }
 

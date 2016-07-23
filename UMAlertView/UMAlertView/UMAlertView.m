@@ -7,7 +7,6 @@
 //
 
 #import "UMAlertView.h"
-#import "ViewController.h"
 
 #define UM_ALERT_VIEW_CORNER_RADIUS 3.0f // AlertView Corner Radius
 #define UM_ALERT_VIEW_MARGIN_ZERO 0.0f
@@ -15,8 +14,10 @@
 #define UM_ALERT_VIEW_HEIGHT 50.0f
 #define UM_ALERT_VIEW_TITLE_TEXT_COLOR [UIColor blackColor] // AlertView Title Color
 #define UM_ALERT_VIEW_SELECT_BUTTON_COLOR [UIColor grayColor] // AlertView Button Background Color
+#define UM_ALERT_VIEW_SELECT_CANCEL_BUTTON_COLOR [UIColor lightGrayColor]
 #define UM_ALERT_VIEW_ALL_BACKGROUND_COLOR [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 #define UM_ALERT_VIEW_SELECT_BUTTON_TITLE @"Select" // AlertView Button Title
+#define UM_ALERT_VIEW_SELECT_CANCEL_BUTTON_TITLE @"Cancel"
 
 static CGFloat duration = 1.0f;
 static NSArray *pickerListData = nil;
@@ -26,32 +27,33 @@ static NSInteger pickerRow = 0;
 @interface UMAlertView()
 
 @property (nonatomic) UIView *umAlertView;
-@property (nonatomic) UIPickerView *picker;
+@property (nonatomic) UILabel *alertTitleLabel;
+@property (nonatomic) UIPickerView *dataPicker;
 
 @end
 
 @implementation UMAlertView
 
 // title, data
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data  {
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton  {
     
-    [self um_showAlertViewTitle:title pickerData:data duration:duration completion:nil];
+    [self um_showAlertViewTitle:title pickerData:data duration:duration haveCancelButton:haveCancelButton completion:nil];
 }
 
 // title, data, completion block
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data completion:(void (^)(void))completed {
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton completion:(void (^)(void))completed {
     
-    [self um_showAlertViewTitle:title pickerData:data duration:duration completion:completed];
+    [self um_showAlertViewTitle:title pickerData:data duration:duration haveCancelButton:haveCancelButton completion:completed];
 }
 
 // title, data, animation time
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time {
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton duration:(CGFloat)time {
     
-    [self um_showAlertViewTitle:title pickerData:data duration:time completion:nil];
+    [self um_showAlertViewTitle:title pickerData:data duration:time haveCancelButton:haveCancelButton completion:nil];
 }
 
 // title, data, animation time, completion block
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time completion:(void (^)(void))completed {
+- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time haveCancelButton:(BOOL)haveCancelButton completion:(void (^)(void))completed {
     
     pickerListData = data;
     duration = time;
@@ -67,32 +69,29 @@ static NSInteger pickerRow = 0;
     umAlertView.layer.cornerRadius = 3 * UM_ALERT_VIEW_CORNER_RADIUS;
     umAlertView.clipsToBounds = YES;
     umAlertView.alpha = 0.0f;
+    self.umAlertView = umAlertView;
     
     UILabel *alertTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO,UM_ALERT_VIEW_MARGIN_ZERO, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT)];
     [alertTitleLabel setText:title];
     [alertTitleLabel setTextColor:UM_ALERT_VIEW_TITLE_TEXT_COLOR];
     [alertTitleLabel setTextAlignment:NSTextAlignmentCenter];
+    [umAlertView addSubview:alertTitleLabel];
+    self.alertTitleLabel = alertTitleLabel;
     
-
     UIPickerView *dataPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, UM_ALERT_VIEW_HEIGHT, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT * 3)];
     dataPicker.backgroundColor = UM_ALERT_VIEW_ALL_BACKGROUND_COLOR;
     dataPicker.delegate = self;
     dataPicker.dataSource = self;
-    self.picker = dataPicker;
-    
-    UIButton *selectButton = [[UIButton alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, alertTitleLabel.frame.size.height + dataPicker.frame.size.height, umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT)];
-    selectButton.clipsToBounds = YES;
-    selectButton.layer.cornerRadius = UM_ALERT_VIEW_CORNER_RADIUS;
-    [selectButton setBackgroundColor:UM_ALERT_VIEW_SELECT_BUTTON_COLOR];
-    [selectButton setTitle:UM_ALERT_VIEW_SELECT_BUTTON_TITLE forState:UIControlStateNormal];
-    [selectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [selectButton addTarget:self action:@selector(alertButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    self.umAlertView = umAlertView;
-    
-    [umAlertView addSubview:alertTitleLabel];
-    [umAlertView addSubview:selectButton];
     [umAlertView addSubview:dataPicker];
-    [keyWindow addSubview:umAlertView];
+    self.dataPicker = dataPicker;
+
+    if(haveCancelButton) {
+        [self addCancelButton];
+    } else {
+        [self onlySelectButton];
+    }
+    
+    [keyWindow addSubview:self.umAlertView];
     
     [UIView animateWithDuration:duration animations: ^{
         NSLog(@"animation");
@@ -101,6 +100,38 @@ static NSInteger pickerRow = 0;
     }];
     
     
+}
+
+- (void)addCancelButton {
+    
+    UIButton *selectButton = [[UIButton alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, self.alertTitleLabel.frame.size.height + self.dataPicker.frame.size.height, self.umAlertView.frame.size.width / 2, UM_ALERT_VIEW_HEIGHT)];
+    selectButton.clipsToBounds = YES;
+    [selectButton setBackgroundColor:UM_ALERT_VIEW_SELECT_BUTTON_COLOR];
+    [selectButton setTitle:UM_ALERT_VIEW_SELECT_BUTTON_TITLE forState:UIControlStateNormal];
+    [selectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [selectButton addTarget:self action:@selector(alertButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(selectButton.frame.size.width, self.alertTitleLabel.frame.size.height + self.dataPicker.frame.size.height, self.umAlertView.frame.size.width / 2, UM_ALERT_VIEW_HEIGHT)];
+    cancelButton.clipsToBounds = YES;
+    [cancelButton setBackgroundColor:UM_ALERT_VIEW_SELECT_CANCEL_BUTTON_COLOR];
+    [cancelButton setTitle:UM_ALERT_VIEW_SELECT_CANCEL_BUTTON_TITLE forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(alertCancelButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.umAlertView addSubview:selectButton];
+    [self.umAlertView addSubview:cancelButton];
+}
+
+- (void)onlySelectButton {
+    
+    UIButton *selectButton = [[UIButton alloc] initWithFrame:CGRectMake(UM_ALERT_VIEW_MARGIN_ZERO, self.alertTitleLabel.frame.size.height + self.dataPicker.frame.size.height, self.umAlertView.frame.size.width, UM_ALERT_VIEW_HEIGHT)];
+    selectButton.clipsToBounds = YES;
+    [selectButton setBackgroundColor:UM_ALERT_VIEW_SELECT_BUTTON_COLOR];
+    [selectButton setTitle:UM_ALERT_VIEW_SELECT_BUTTON_TITLE forState:UIControlStateNormal];
+    [selectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [selectButton addTarget:self action:@selector(alertButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.umAlertView addSubview:selectButton];
 }
 
 - (void)um_dismissAlertView {
@@ -142,6 +173,14 @@ static NSInteger pickerRow = 0;
     
     if ([self.delegate respondsToSelector:@selector(selectUMAlertButton)]) {
         [self.delegate selectUMAlertButton];
+    }
+}
+
+- (void)alertCancelButtonAction {
+    NSLog(@"alertCancelButtonAction");
+    
+    if ([self.delegate respondsToSelector:@selector(selectUMAlertCancelButton)]) {
+        [self.delegate selectUMAlertCancelButton];
     }
 }
 
