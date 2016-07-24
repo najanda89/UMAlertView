@@ -87,6 +87,7 @@ static NSInteger pickerRow = 0;
     
     if(haveCancelButton) {
         [self addCancelButton];
+        NSLog(@"add");
     } else {
         CGFloat umAlertViewWidth = self.umAlertView.frame.size.width;
         [self onlySelectButton:umAlertViewWidth];
