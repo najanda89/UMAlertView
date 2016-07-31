@@ -10,47 +10,7 @@ Add cancel button option
 2. Open your project in Xcode, drag the UMAlertView folder into your project. Make sure to select Copy items when asked if you extracted the code archive outside of your project.
 3. You need it with Import UMAlertView.h & UMAlertView.m
 
-## Function
-
-```
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton;
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton duration:(CGFloat)time;
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data haveCancelButton:(BOOL)haveCancelButton completion:(void (^)(void))completed;
-- (void)um_showAlertViewTitle:(NSString *)title pickerData:(NSArray *)data duration:(CGFloat)time haveCancelButton:(BOOL)haveCancelButton completion:(void (^)(void))completed;
-
-- (void)um_dismissAlertView;
-- (void)um_dismissAlertViewCompletion:(void(^)(void))complete;
-```
-
-## Usage
-
-Init, Delegate
-```
-    umAlertView = [[UMAlertView alloc] init];
-    umAlertView.delegate = self;
-```
-
-Delegate Method
-```
-- (void)selectUMAlertButton;
-- (void)selectUMAlertCancelButton;
-```
-
-Action
-```
-    data = [[NSArray alloc] initWithObjects:@"UMData1", @"UMData2", nil];
-    [umAlertView um_showAlertViewTitle:@"UMAlertView" pickerData:data haveCancelButton:YES completion:^{
-        NSLog(@"UMAlertView show success");
-    }];
-```
-
-Dismiss
-```
-    [umAlertView um_dismissAlertView];
-    [umAlertView um_dismissAlertViewCompletion:^{
-        NSLog(@"UMAlertView dismiss success");
-    }];
-```
+<script src="https://gist.github.com/najanda89/d29bc9a14a5a0b65fb63f2c71f0ac339.js"></script>
 
 ## Contact
 
